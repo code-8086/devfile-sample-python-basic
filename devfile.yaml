@@ -36,7 +36,50 @@ components:
       deployment/memoryRequest: 50Mi
       deployment/container-port: 8081
     kubernetes:
-      uri: deploy.yaml
+      inlined: |
+	    {
+	        "kind": "Deployment",
+ 	       "apiVersion": "apps/v1",
+ 	       "metadata": {
+ 	           "name": "my-python"
+	        },
+	        "spec": {
+ 	           "replicas": 1,
+ 	           "selector": {
+  	              "matchLabels": {
+   	                 "app": "python-app"
+   	             }
+  	          },
+  	          "template": {
+    	            "metadata": {
+    	                "labels": {
+   	                     "app": "python-app"
+   	                 }
+    	            },
+   	             "spec": {
+   	                 "containers": [
+    	                    {
+     	                       "name": "my-python",
+            	                "image": "python-image:latest",
+                    	        "ports": [
+                            	    {
+     	                               "name": "http",
+            	                        "containerPort": 8081,
+                    	                "protocol": "TCP"
+                            	    }
+ 	                           ],
+        	                    "resources": {
+                	                "requests": {
+                        	            "memory": "50Mi",
+                                	    "cpu": "10m"
+ 	                               }
+        	                    }
+                	        }
+  	                  ]
+     	           }
+  	          }
+ 	       }
+	    }
       endpoints:
         - name: http-8081
           targetPort: 8081
