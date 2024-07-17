@@ -24,6 +24,7 @@ components:
         buildContext: .
         rootRequired: false
   - name: kubernetes-deploy
+    deployByDefault: true
     attributes:
       deployment/replicas: 1
       deployment/cpuRequest: 10m
